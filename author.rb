@@ -11,7 +11,8 @@ class Author
     end
 
     def books
-        BookAuthor.all.select {|book_auth| book_auth.author == self}
+        book_auths = BookAuthor.all.select {|book_auth| book_auth.author == self}
+        book_auths.map {|book_auth| book_auth.book}
     end
 
     def write_book(title, word_count)

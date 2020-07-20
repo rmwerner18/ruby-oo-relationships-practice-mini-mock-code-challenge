@@ -1,8 +1,7 @@
 class Book
-    attr_accessor :author, :title, :word_count
+    attr_accessor :title, :word_count
     @@all = []
-    def initialize(author, title, word_count)
-        @author = author
+    def initialize(title, word_count)
         @title = title
         @word_count = word_count
         Book.all << self
@@ -10,5 +9,9 @@ class Book
 
     def self.all
         @@all
+    end
+
+    def authors
+        BookAuthor.all.select {|book_auth| book_auth.book == self}
     end
 end

@@ -11,8 +11,11 @@ class Book
         @@all
     end
 
+    def book_authors 
+        BookAuthor.all.select {|book_auth| book_auth.book == self}
+    end
+
     def authors
-        book_auths = BookAuthor.all.select {|book_auth| book_auth.book == self}
-        book_auths.map {|book_auth| book_auth.author}
+        book_authors.map {|book_auth| book_auth.author}
     end
 end

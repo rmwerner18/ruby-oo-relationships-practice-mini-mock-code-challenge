@@ -10,9 +10,12 @@ class Author
         @@all
     end
 
+    def book_authors
+        BookAuthor.all.select {|book_auth| book_auth.author == self}
+    end
+
     def books
-        book_auths = BookAuthor.all.select {|book_auth| book_auth.author == self}
-        book_auths.map {|book_auth| book_auth.book}
+        book_authors.map {|book_auth| book_auth.book}
     end
 
     def write_book(title, word_count)
@@ -21,14 +24,10 @@ class Author
     end
 
     def total_words
-        counts = self.books.map {|book_auth| book_auth.book.word_count}
-        counts.sum
+        self.books.reduce(0) {|word_total, book| word_total + book.word_count}
     end
 
     def self.most_words
-        #currently assumes that only one author has the most words and that it is not a tie
-        all_totals = Author.all.map {|author| author.total_words}
-        max = all_totals.max {|count1, count2| count1 <=> count2}
-        Author.all.find {|author| author.total_words == max}
+        Author.all.max_by {|author| author.total_words}
     end
 end
